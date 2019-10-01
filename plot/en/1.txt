@@ -1,0 +1,2 @@
+Now you can see the map.
+You can enter "n/N", "s/S","e/E","w/W" to move north, south, East and west.

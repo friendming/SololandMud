@@ -1,0 +1,7 @@
+Welcome to SoloLandMud，this is a MUD game.
+You can enter commands to play the game, and control all things in the game.
+For example, you can enter "map" to get map. Enter "help" to get basic command helps.
+Battle with others also needs you enter commands ,thus you can control game character.
+Try to enter "map".
+/getCommand()
+/setPlot(1)
