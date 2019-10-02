@@ -15,7 +15,7 @@ class Persion:
 
 def showPlot(progress): #剧情显示函数
     plot_path = './plot/ch/' + str(progress) + '.slmp'
-    if (int(progress) <= 1):
+    if (int(progress) <= 2):
         fplot = open(plot_path,encoding = 'utf-8',mode = 'r')
         ls = fplot.readlines()
         #ls_len = len(ls)
@@ -45,8 +45,10 @@ def getCommand(): #获取指令并操作的函数 返回输入的指令
         exit()
     elif (com == 'help'):
         printHelp()
+    elif (com[0:11] == 'battle with'):
+        battleTF = battleInit(com.strip('battle with '))#进入战斗
     else:
-        print('未知指令')
+        print('\033[1;31;40m未知指令\033[0m')
     ####判别 END####
     return com
 
@@ -61,20 +63,42 @@ def setPlot(next): #剧情进度设定函数
     fplotp.close()
 
 def printHelp():
+    print('---')
+    print('\033[1;34m帮助：\033[0m')
     fhelp = open('./bin/files/help.slmf',encoding = 'utf-8',mode = 'r')
     print(fhelp.read())
     fhelp.close
+    print('---')
 
-def battleInit():
-    fbattle_info = open('./udata/gamer/battle_info.slmd',mode = 'r')
+def battleInit(enemy):
+    ls_info_me = battleReadFiles('./udata/gamer/battle_info.slmd')
+    enemy_url = './bin/battleperson/normal/' + enemy + '.slmd'
+    print(enemy_url)
+    ls_info_enemy = battleReadFiles(enemy_url)
+    print(ls_info_enemy)
+    print(ls_info_me)
+    '''
+    hp = ls_info_me[0]
+    mp = ls_info_me[1]
+    jsl = ls_info_me[2]
+    watt = ls_info_me[3]
+    fatt = ls_info_me[4]
+    wpro = ls_info_me[5]
+    fpro = ls_info_me[6]
+    '''
+
+def battleReadFiles(url):
+    fbattle_info = open(url,mode = 'r')
     ls = fbattle_info.readlines()
-    hp = ls[0].strip('hp=')
-    mp = ls[1].strip('mp=')
-    jsl = ls[2].strip('jsl=')
-    watt = ls[3].strip('watt=')
-    fatt = ls[4].strip('fatt=')
-    wpro = ls[5].strip('wpro=')
-    fpro = ls[6].strip('fpro=')
+    ls[0] = ls[0].strip('hp=')
+    ls[1] = ls[1].strip('mp=')
+    ls[2] = ls[2].strip('jsl=')
+    ls[3] = ls[3].strip('watt=')
+    ls[4] = ls[4].strip('fatt=')
+    ls[5] = ls[5].strip('wpro=')
+    ls[6] = ls[6].strip('fpro=')
+    fbattle_info.close()
+    return ls
 
 def init():
     fplotp = open('./udata/plot_progress.slmd', mode = 'r')     #获取剧情进度
@@ -86,8 +110,6 @@ def init():
     fplotp.close()
     flstp.close()
     print(plot_progress)#显示剧情序号
-
-
 
 init()
 showPlot(plot_progress)
