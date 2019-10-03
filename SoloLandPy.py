@@ -45,8 +45,11 @@ def getCommand(): #获取指令并操作的函数 返回输入的指令
         exit()
     elif (com == 'help'):
         printHelp()
-    elif (com[0:11] == 'battle with'):
-        battleTF = battleInit(com.strip('battle with '))#进入战斗
+    elif (com[0:11] == 'battle with'):  #进入战斗
+        com1 = com.lstrip('battle ')
+        com2 = com1.lstrip('with')
+        com3 = com2.lstrip(' ')
+        battleInit(com3)
     else:
         print('\033[1;31;40m未知指令\033[0m')
     ####判别 END####
@@ -70,11 +73,18 @@ def printHelp():
     fhelp.close
     print('---')
 
-def battleInit(enemy):
+def battleInit(enemy):      #战斗初始化
+    print(enemy)
     ls_info_me = battleReadFiles('./udata/gamer/battle_info.slmd')
+    if(ls_info_me == 0):
+        print('错误！未找到人物！')
+        return
     enemy_url = './bin/battleperson/normal/' + enemy + '.slmd'
     print(enemy_url)
     ls_info_enemy = battleReadFiles(enemy_url)
+    if(ls_info_enemy == 0):
+        print('错误！未找到人物！')
+        return
     print(ls_info_enemy)
     print(ls_info_me)
     '''
@@ -88,17 +98,21 @@ def battleInit(enemy):
     '''
 
 def battleReadFiles(url):
-    fbattle_info = open(url,mode = 'r')
-    ls = fbattle_info.readlines()
-    ls[0] = ls[0].strip('hp=')
-    ls[1] = ls[1].strip('mp=')
-    ls[2] = ls[2].strip('jsl=')
-    ls[3] = ls[3].strip('watt=')
-    ls[4] = ls[4].strip('fatt=')
-    ls[5] = ls[5].strip('wpro=')
-    ls[6] = ls[6].strip('fpro=')
-    fbattle_info.close()
-    return ls
+    try:
+        fbattle_info = open(url,mode = 'r')
+        ls = fbattle_info.readlines()
+        ls[0] = ls[0].strip('hp=')
+        ls[1] = ls[1].strip('mp=')
+        ls[2] = ls[2].strip('jsl=')
+        ls[3] = ls[3].strip('watt=')
+        ls[4] = ls[4].strip('fatt=')
+        ls[5] = ls[5].strip('wpro=')
+        ls[6] = ls[6].strip('fpro=')
+        fbattle_info.close()
+        return ls
+    except IOError:
+        return 0
+
 
 def init():
     fplotp = open('./udata/plot_progress.slmd', mode = 'r')     #获取剧情进度
