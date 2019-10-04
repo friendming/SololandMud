@@ -50,6 +50,11 @@ def getCommand(): #获取指令并操作的函数 返回输入的指令
         com2 = com1.lstrip('with')
         com3 = com2.lstrip(' ')
         battleInit(com3)
+    elif (com[0:7] == 'move to'):
+        com1 = com.lstrip('move ')
+        com2 = com1.lstrip('to')
+        com3 = com2.lstrip(' ')
+        print('移动到' + com3)
     else:
         print('\033[1;31;40m未知指令\033[0m')
     ####判别 END####
@@ -76,17 +81,15 @@ def printHelp():
 def battleInit(enemy):      #战斗初始化
     print(enemy)
     ls_info_me = battleReadFiles('./udata/gamer/battle_info.slmd')
-    if(ls_info_me == 0):
-        print('错误！未找到人物！')
-        return
     enemy_url = './bin/battleperson/normal/' + enemy + '.slmd'
     print(enemy_url)
     ls_info_enemy = battleReadFiles(enemy_url)
     if(ls_info_enemy == 0):
-        print('错误！未找到人物！')
+        print('\033[1;31m错误,未找到人物！\033[0m')
         return
     print(ls_info_enemy)
     print(ls_info_me)
+    print('----------\033[1;33m战斗开始\033[0m----------')
     '''
     hp = ls_info_me[0]
     mp = ls_info_me[1]
@@ -113,7 +116,29 @@ def battleReadFiles(url):
     except IOError:
         return 0
 
+def readMap(place):
+    total_place = 0
+    all_area = (0,0)
+    if(place == 'map all'):
+        print('输出全部地图功能暂未上线，请直接输入map获得地图')
+    else:
+        url_name = './bin/world/map/' + place + '/name.slmd'
+        url_lj = './bin/world/map/' + place + '/adjacency.slmd'
+        map_name = open(url_name, mode = 'r')
+        map_lj = open(url_lj, mode = 'r')
+'''
+def movePlace(place):
+    if (place == e):
+        
+    elif (place == w):
 
+    elif (place == s):
+
+    elif (place == n):
+
+    else:
+        print('移动到->' + place)
+'''
 def init():
     fplotp = open('./udata/plot_progress.slmd', mode = 'r')     #获取剧情进度
     flstp = open('./udata/last_place.slmd', mode = 'r')         #获取剧情进度

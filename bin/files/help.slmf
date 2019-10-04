@@ -1,5 +1,6 @@
 help-显示帮助
 map-显示地图
 go to + e/w/s/n-移动往东/西/南/北
+move to + 地点-直接移动到某一地点
 battle with+人物名称-与人物战斗（当且仅当当前地图中存在该人物）
 end game-退出游戏
