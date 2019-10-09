@@ -126,6 +126,11 @@ def readMap(place):
         url_lj = './bin/world/map/' + place + '/adjacency.slmd'
         map_name = open(url_name, mode = 'r')
         map_lj = open(url_lj, mode = 'r')
+        ls_map_name = map_name.readlines()
+        ls_map_lj = map_lj.readlines()
+        map_total = ls_map_name[0].strip('total=')
+        m_range = ls_map_lj.strip('range=')
+        rangex, rangey = m_range.split(',')
 '''
 def movePlace(place):
     if (place == e):
