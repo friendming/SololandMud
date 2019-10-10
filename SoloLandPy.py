@@ -13,6 +13,19 @@ class Persion:
     mp = 0      #魂力
     jsl = 0     #精神力
 
+class WorldPlace:
+    def __init__(self,name,x,y,w,e,s,n):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.w = w
+        self.e = e
+        self.s = s
+        self.n = n
+    
+    def getWorldPlaceDic():
+        return {'name':name,'x':x,'y':y,'w':w,'e':e,'s':s,'n':n}
+
 def showPlot(progress): #剧情显示函数
     plot_path = './plot/ch/' + str(progress) + '.slmp'
     if (int(progress) <= 2):
@@ -100,7 +113,7 @@ def battleInit(enemy):      #战斗初始化
     fpro = ls_info_me[6]
     '''
 
-def battleReadFiles(url):
+def battleReadFiles(url):  #读取战斗数据
     try:
         fbattle_info = open(url,mode = 'r')
         ls = fbattle_info.readlines()
@@ -124,8 +137,15 @@ def readMap(place):
     else:
         url_name = './bin/world/map/' + place + '/name.slmd'
         url_lj = './bin/world/map/' + place + '/adjacency.slmd'
-        map_name = open(url_name, mode = 'r')
+        map_name = open(url_name,encoding = 'utf-8', mode = 'r')
         map_lj = open(url_lj, mode = 'r')
+        ls_name = map_name.readlines()
+        ls_lj = map_lj.readlines()
+
+        for i in range(int(3)):
+            for i2 in range(int (3)):
+                
+
 '''
 def movePlace(place):
     if (place == e):
@@ -148,7 +168,7 @@ def init():
     gamer_place = flstp.read()
     fplotp.close()
     flstp.close()
-    print(plot_progress)#显示剧情序号
+    print(plot_progress)                                        #显示剧情序号
 
 init()
 showPlot(plot_progress)
