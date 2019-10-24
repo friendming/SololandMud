@@ -2,6 +2,8 @@
 #Produced by Quming
 #Latest edit:20190928 19:24
 
+import time
+
 plot_progress = ''  #全局变量 剧情进度
 gamer_place = ''    #角色所在位置
 
@@ -68,14 +70,20 @@ def getCommand(): #获取指令并操作的函数 返回输入的指令
         com2 = com1.lstrip('to')
         com3 = com2.lstrip(' ')
         print('移动到' + com3)
+    elif (com[0:2]=='//'):
+        try:
+            print('\033[0;37;44m调试命令\033[0m {}'.format(com[2:]))
+            eval(com[2:])
+        except:
+            print('\033[0;37;41m调试命令错误\033[0m')
     else:
-        print('\033[1;31;40m未知指令\033[0m')
+        print('\033[1;31m未知指令\033[0m')
     ####判别 END####
     return com
 
 def setPlot(next): #剧情进度设定函数
     global plot_progress
-    if next == '+':
+    if (next == '+'):
         plot_progress = plot_progress + 1
     else:
         plot_progress = next
@@ -103,6 +111,7 @@ def battleInit(enemy):      #战斗初始化
     print(ls_info_enemy)
     print(ls_info_me)
     print('----------\033[1;33m战斗开始\033[0m----------')
+    battleMain(ls_info_me,ls_info_enemy)
     '''
     hp = ls_info_me[0]
     mp = ls_info_me[1]
@@ -127,8 +136,16 @@ def battleReadFiles(url):  #读取战斗数据
         fbattle_info.close()
         return ls
     except IOError:
+        print('\033[1;31m出问题了啊，没读出来人物数据\033[0m')
         return 0
 
+def battleMain(ls_info_me,ls_info_enemy):
+    while(1):
+        if (ls_info_me[0] == '0'):
+            return 0
+        elif (ls_info_enemy == '0'):
+            return 1
+        
 def readMap(place):
     total_place = 0
     all_area = (0,0)
@@ -138,13 +155,18 @@ def readMap(place):
         url_name = './bin/world/map/' + place + '/name.slmd'
         url_lj = './bin/world/map/' + place + '/adjacency.slmd'
         map_name = open(url_name,encoding = 'utf-8', mode = 'r')
-        map_lj = open(url_lj, mode = 'r')
-        ls_name = map_name.readlines()
-        ls_lj = map_lj.readlines()
+        map_lj = open(url_lj, mode = 'r')    
 
-        for i in range(int(3)):
-            for i2 in range(int (3)):
-                
+        ls_map_name = map_name.readlines()
+        ls_map_lj = map_lj.readlines()
+        map_total = ls_map_name[0].strip('total=')
+        m_range = ls_map_lj.strip('range=')
+        rangex, rangey = m_range.split(',')
+
+        for i in range(int(map_total)):
+            for i1 in range(int(rangex)):
+                for i2 in range(int(rangey)):
+                    print('\t1')
 
 '''
 def movePlace(place):
